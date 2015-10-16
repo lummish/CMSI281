@@ -393,13 +393,13 @@ public class NumberList implements java.util.Collection {
         if (this.isEmpty()) return "";
 
         Iterator itr = this.iterator();
-        String result = "{";
+        String result = "[";
         
         while ( itr.hasNext() ) {
             result += itr.next() + ", ";
         }
 
-        result = result.substring(0, result.length() - 2) + "}";
+        result = result.substring(0, result.length() - 2) + "]";
 
         return result;
 
