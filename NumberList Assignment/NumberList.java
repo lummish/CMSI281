@@ -4,6 +4,7 @@
     <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Collection.html">interface java.util.Collection</a>.
 */
 import java.util.ArrayList; //for testing only
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -643,6 +644,9 @@ public class NumberList implements java.util.Collection {
         NumberList nl_4 = new NumberList(littleTst);
         
         nl_4.remove(new Long(1));
+        Long[] toArrayTest = nl_4.toArray();
+        System.out.println(Arrays.deepEquals(toArrayTest, 
+            new Long[] {new Long(2), new Long(3), new Long(4)}));
         System.out.println("1: " + nl_4.toString());
         System.out.println("Size: " + nl_4.size());
         System.out.println("maxFill: " + nl_4.maxFill);
