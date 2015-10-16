@@ -224,7 +224,7 @@ public class NumberList implements java.util.Collection {
     					this.lst[j-1] = this.lst[j];
     				}
 
-    				this.lastFull--; //if <= minfill, reduce size
+    				this.lastFull--;
 
     				return true;
     			}
@@ -263,13 +263,16 @@ public class NumberList implements java.util.Collection {
     /** Removes all of this collection's elements that are also contained 
         in the specified collection. Worst case n^2*/
     public boolean removeAll ( java.util.Collection c ) { //need to test
-        if (this.equals(c)) {
+        
+        if (this.equals(c)) { //if c is same as this, clear array
             this.clear();
             return true;
         }
+
         for (Object o : c) {
             while(this.remove((Long) o));
         }
+        
         return true;
     }
 
@@ -287,7 +290,6 @@ public class NumberList implements java.util.Collection {
         Iterator itr = this.iterator();
         NumberList removeList = new NumberList();
 
-        int count = 0;
         while (itr.hasNext()) {
             
             Object cur = itr.next();
@@ -316,7 +318,7 @@ public class NumberList implements java.util.Collection {
         
         if (this.isEmpty()) return null;
 
-        NumberList result = new NumberList();
+        NumberList result = new NumberList(); 
         NumberList n = new NumberList();
         n.lastFull = this.lastFull;
         n.maxFill = this.maxFill;
@@ -327,7 +329,7 @@ public class NumberList implements java.util.Collection {
             n.lst[i] = this.lst[i];
         }
 
-        while (!n.isEmpty()) {
+        while (!n.isEmpty()) { //While emptying n, add unique elements to result
             Object first = n.lst[0];
             result.add(first);
             while(n.remove(first));
