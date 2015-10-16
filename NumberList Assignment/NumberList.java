@@ -40,7 +40,9 @@ public class NumberList implements java.util.Collection {
 
     /** Increases by one the number of instances of the given element in this collection. Constant amortized time*/
     public boolean add ( Object obj ) {
-        
+
+        if (obj.equals(null)) throw new NullPointerException();
+
         if (obj instanceof Long) {
             this.lst[++this.lastFull] = (Long) obj;
         
@@ -66,7 +68,9 @@ public class NumberList implements java.util.Collection {
 
     /** Adds all of the elements of the given number list to this one. Runs in linear worst case time as size of c increases*/
     public boolean addAll ( java.util.Collection c  ) { 
-       
+        
+        if (c.equals(null)) throw new NullPointerException();
+        
         if (c instanceof java.util.Collection) {
 
             Iterator itr = c.iterator();
@@ -137,7 +141,7 @@ public class NumberList implements java.util.Collection {
 
             while (itr_1.hasNext() && itr_2.hasNext()) {
 
-                if (itr_1.next() != itr_2.next()) 
+                if (! itr_1.next().equals(itr_2.next()) )
                     return false;
 
             }
@@ -316,9 +320,9 @@ public class NumberList implements java.util.Collection {
     Worst case n^2*/
     public Long[] toArray () {
         
-        if (this.isEmpty()) return null;
+        if (this.isEmpty()) return new Long[0];
 
-        NumberList result = new NumberList(); 
+        NumberList no_dup = new NumberList(); 
         NumberList n = new NumberList();
         n.lastFull = this.lastFull;
         n.maxFill = this.maxFill;
@@ -330,12 +334,19 @@ public class NumberList implements java.util.Collection {
         }
 
         while (!n.isEmpty()) { //While emptying n, add unique elements to result
-            Object first = n.lst[0];
-            result.add(first);
+            Long first = n.lst[0];
+            no_dup.add(first);
             while(n.remove(first));
         }
 
-        return result.lst;
+        Long[] result = new Long[no_dup.sizeIncludingDuplicates()];
+        int j = 0;
+
+        for (Object l : no_dup) {
+            result[j++] = (Long) l;
+        } 
+
+        return result;
     }
 
 
@@ -390,7 +401,7 @@ public class NumberList implements java.util.Collection {
 
     /** This returns a stringy version of this number list. Worst case linear time.*/
     public String toString () { // overrides Object.toString()
-        if (this.isEmpty()) return "";
+        if (this.isEmpty()) return "[]";
 
         Iterator itr = this.iterator();
         String result = "[";
@@ -413,7 +424,7 @@ public class NumberList implements java.util.Collection {
         NumberList n = new NumberList();
         
         for (int i = 0; i < l.length; i++) {
-            n.add(l[i]);
+            n.add((Long)l[i]);
         }
 
         return n;
@@ -679,6 +690,8 @@ public class NumberList implements java.util.Collection {
         System.out.println("maxFill: " + nl_4.maxFill);
         System.out.println("minFill: " + nl_4.minFill);
         System.out.println("lastFull: " + nl_4.lastFull);
+
+
 
     }   
 }
