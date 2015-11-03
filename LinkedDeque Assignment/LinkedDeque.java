@@ -177,26 +177,4 @@ public class LinkedDeque {
 			throw new UnsupportedOperationException();
 		}
 	}
-
-	public Object get( int index ) {
-		if ( index < 0 || index >= size ) {
-			throw new NoSuchElementException();
-		}
-
-		int count = 0;
-		/*
-		for ( Object o : this ) {
-			if (count == index) return o;
-			count++;
-		}*/
-
-		Iterator itr = this.iterator();
-
-		while ( itr.hasNext() ) {
-			if ( count++ == index ) return itr.next();
-		}
-
-		return null; //returns null if there is no object at that index
-	}
-	
 }
