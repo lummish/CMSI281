@@ -75,7 +75,7 @@ public class LinkedDequeTest {
 			d_1.insertLeft( new Long( 3 ));
 
 			String d_1_string = d_1.toString();
-			boolean check = d_1_string.equals("[3, 2, 1]");
+			boolean check = d_1_string.equals("[3][2][1]");
 
 			if (check) success_count++;
 
@@ -96,7 +96,7 @@ public class LinkedDequeTest {
 			d_2.insertLeft( 3 );
 
 			String d_2_string = d_2.toString();
-			boolean check = d_2_string.equals("[3, 2, 1]");
+			boolean check = d_2_string.equals("[3][2][1]");
 
 			if (check) success_count++;
 
@@ -129,7 +129,7 @@ public class LinkedDequeTest {
 				d_3.insertLeft( itr_2.next() );
 			}
 
-			boolean check = d_3.toString().equals("[1, 2, 3]"); // need to check reverse
+			boolean check = d_3.toString().equals("[1][2][3]"); // need to check reverse
 
 			print_success("insertions after delete", check);
 
@@ -194,7 +194,7 @@ public class LinkedDequeTest {
 			d_1.insertRight( new Long( 3 ));
 
 			String d_1_string = d_1.toString();
-			boolean check = d_1_string.equals("[1, 2, 3]");
+			boolean check = d_1_string.equals("[1][2][3]");
 
 			if (check) success_count++;
 
@@ -215,7 +215,7 @@ public class LinkedDequeTest {
 			d_2.insertRight( 3 );
 
 			String d_2_string = d_2.toString();
-			boolean check = d_2_string.equals("[1, 2, 3]");
+			boolean check = d_2_string.equals("[1][2][3]");
 
 			if (check) success_count++;
 
@@ -248,7 +248,7 @@ public class LinkedDequeTest {
 				d_3.insertRight( itr_2.next() );
 			}
 
-			boolean check = d_3.toString().equals("[1, 2, 3]"); // need to check reverse
+			boolean check = d_3.toString().equals("[1][2][3]"); // need to check reverse
 			
 			print_success("insertions after delete", check);
 
@@ -328,7 +328,7 @@ public class LinkedDequeTest {
 				d_1.deleteLeft();
 			}
 
-			boolean check = d_1.toString().equals("[7, 9, 11]");
+			boolean check = d_1.toString().equals("[7][9][11]");
 
 			print_success("deleteLeft() of same type", check);
 
@@ -405,7 +405,7 @@ public class LinkedDequeTest {
 				d_1.deleteRight();
 			}
 
-			boolean check = d_1.toString().equals("[11, 9, 7]");
+			boolean check = d_1.toString().equals("[11][9][7]");
 
 			print_success("deleteRight() of same type", check);
 
@@ -466,7 +466,7 @@ public class LinkedDequeTest {
 				d_2.insertRight(first);				
 			}
 
-			boolean check = d_2.toString().equals( "[2, 3, 5, 7, 11, 13]" );
+			boolean check = d_2.toString().equals( "[2][3][5][7][11][13]" );
 			print_success( "left() on valid elements", check );
 			if ( check ) success_count++;
 
@@ -504,7 +504,7 @@ public class LinkedDequeTest {
 				d_2.insertRight(first);				
 			}
 
-			boolean check = d_2.toString().equals( "[13, 11, 7, 5, 3, 2]" );
+			boolean check = d_2.toString().equals( "[13][11][7][5][3][2]" );
 			print_success( "right() on valid elements", check );
 			if ( check ) success_count++;
 

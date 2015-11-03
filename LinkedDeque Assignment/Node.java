@@ -1,3 +1,5 @@
+import java.lang.Class;
+
 public class Node {
 	
 	private Node next;
@@ -39,6 +41,5 @@ public class Node {
 	public Object get() {
 		return data;
 	}
-
 
 }

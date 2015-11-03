@@ -1,4 +1,7 @@
 import java.util.NoSuchElementException;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+
 /**A linked deque that does not allow null elements.**/
 public class LinkedDeque {
 
@@ -121,13 +124,13 @@ public class LinkedDeque {
 		String out = "[";
 
 		while( cur != null ) {
-			out += cur.get() + ", ";
+			out += cur.get() + "][";
 			cur = cur.getNext();
 		}
 
 		if ( out.length() == 1 ) return "[]";
 		else {
-			return out.substring( 0, out.length() - 2 ) + "]";
+			return out.substring( 0, out.length() - 1 );
 		}
 		
 	}
@@ -136,13 +139,15 @@ public class LinkedDeque {
 		return new DequeIterator();
 	}
 
-	private class DequeIterator implements java.util.Iterator {
+	private class DequeIterator implements Iterator<Object> {
 		
 		private int index;
 		private Node cur;
+		private int start_size;
 
 		public DequeIterator() {
 			index = 0;
+			start_size = LinkedDeque.this.size;
 			cur = LinkedDeque.this.left;
 		}
 
@@ -152,7 +157,8 @@ public class LinkedDeque {
 		}
 
 		public Object next() {
-			
+			if (LinkedDeque.this.size() != start_size)
+				throw new ConcurrentModificationException();
 			if (this.hasNext()) {
 				Object out = cur.get();
 				cur = cur.getNext();
@@ -163,9 +169,34 @@ public class LinkedDeque {
 			throw new NoSuchElementException();
 		}
 
+		public int get_index() {
+			return index;
+		}
+
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 	}
 
+	public Object get( int index ) {
+		if ( index < 0 || index >= size ) {
+			throw new NoSuchElementException();
+		}
+
+		int count = 0;
+		/*
+		for ( Object o : this ) {
+			if (count == index) return o;
+			count++;
+		}*/
+
+		Iterator itr = this.iterator();
+
+		while ( itr.hasNext() ) {
+			if ( count++ == index ) return itr.next();
+		}
+
+		return null; //returns null if there is no object at that index
+	}
+	
 }
