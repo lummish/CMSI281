@@ -266,9 +266,12 @@ public class BinaryTree implements Iterable {
 					p = p.getRight();
 					skipLeft = false;
 				}
-				else {
+				else if (p != root) {
 					p = rootStack.pop();
 					skipLeft = true;
+				}
+				else {
+					return p.get();
 				}
 				return toReturn.get();
 			}
