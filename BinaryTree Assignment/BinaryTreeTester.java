@@ -155,6 +155,55 @@ public class BinaryTreeTester {
 		end_test("equals()");
 	}
 
+	public static void hashCodeTest() {
+		System.out.println("Tests for hashCode");
+
+		BinaryTree t1 = new BinaryTree(1L);
+		t1.putCursorAtRoot();
+		t1.attachLeftSonAtCursor(2L);
+		t1.attachRightSonAtCursor(3L);
+		t1.putCursorAtLeftSon();
+		t1.attachLeftSonAtCursor(4L);
+		t1.putCursorAtLeftSon();
+		t1.attachLeftSonAtCursor(5L);
+		t1.attachRightSonAtCursor(6L);
+		t1.putCursorAtRoot();
+		t1.putCursorAtRightSon();
+		t1.attachLeftSonAtCursor(7L);
+		t1.attachRightSonAtCursor(8L);
+
+		BinaryTree t2 = new BinaryTree(1L);
+		t2.putCursorAtRoot();
+		t2.attachLeftSonAtCursor(2L);
+		t2.attachRightSonAtCursor(3L);
+		t2.putCursorAtLeftSon();
+		t2.attachLeftSonAtCursor(4L);
+		t2.putCursorAtLeftSon();
+		t2.attachLeftSonAtCursor(5L);
+		t2.attachRightSonAtCursor(6L);
+		t2.putCursorAtRoot();
+		t2.putCursorAtRightSon();
+		t2.attachLeftSonAtCursor(7L);
+		t2.attachRightSonAtCursor(8L);
+
+		BinaryTree t3 = new BinaryTree(1L);
+		t3.putCursorAtRoot();
+		t3.attachLeftSonAtCursor(5L);
+		t3.attachRightSonAtCursor(8L);
+		t3.putCursorAtLeftSon();
+		t3.attachLeftSonAtCursor(9L);
+		t3.putCursorAtLeftSon();
+		t3.attachLeftSonAtCursor(2L);
+		t3.attachRightSonAtCursor(3L);
+		t3.putCursorAtRightSon();
+		t3.attachLeftSonAtCursor(6L);
+		t3.attachRightSonAtCursor(7L);
+
+		print_success("equal trees, same hashcode", t1.hashCode() == t2.hashCode());
+		print_success("different trees, different hashcode", t2.hashCode() != t3.hashCode());
+		end_test("hashCode");
+	}
+
 	//need to test if pruning can result in empty tree
 	public static void print_success( String test, boolean b ) {
 		test_count++;
@@ -200,5 +249,6 @@ public class BinaryTreeTester {
 	public static void main(String[] args) {
 		similarTest();
 		equalsTest();
+		hashCodeTest();
 	}
 }

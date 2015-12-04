@@ -430,19 +430,19 @@ public class BinaryTree implements Iterable {
 		Iterator preItr = iterator();
 		Iterator inItr = inOrder();
 
-		String result = "[";
+		String result = "";
 		
 		while (preItr.hasNext()) {
-			result += preItr.next().toString() + " ";
+			result += preItr.next().hashCode() + " ";
 		}
 		
 		result += "|";
 		
 		while (inItr.hasNext()) {
-			result += inItr.next().toString() + " ";
+			result += inItr.next().hashCode() + " ";
 		}
 		
-		result = result.replace("\\s$", "]");
+		result = result.replace("\\s$", "");
 
 		return result.hashCode();
 	}
