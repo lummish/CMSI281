@@ -2,7 +2,6 @@ import java.util.Stack;
 import java.util.Iterator;
 import java.util.HashMap;
 
-//need code to prevent pruning during iteration.
 
 public class BinaryTree implements Iterable {
 	private int size;
@@ -27,6 +26,7 @@ public class BinaryTree implements Iterable {
 		allowPrune = true;
 	}
 
+	/**Returns true if the argument is stored in this tree**/
 	public boolean contains( Object obj ) {
 		if (isEmpty()) {
 			return false;
@@ -42,6 +42,8 @@ public class BinaryTree implements Iterable {
 		return false;
 	}
 
+	/**Returns true if the argument is a binary tree with equivalent structure
+	to the current instance.**/
 	public boolean similar( Object obj ) {
 		if (obj instanceof BinaryTree) {
 			BinaryTree t = (BinaryTree) obj;
@@ -76,6 +78,7 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Returns an array version of the tree's preorder traversal**/
 	private Object[] preOrderToArray() {
 		if (isEmpty()) {
 			return null;
@@ -92,6 +95,7 @@ public class BinaryTree implements Iterable {
 		return out;
 	}
 
+	/**Returns an array version of the tree's inorder traversal**/
 	private Object[] inOrderToArray() {
 		if (isEmpty()) {
 			return null;
@@ -108,10 +112,9 @@ public class BinaryTree implements Iterable {
 		return out;
 	}
 
-	public boolean equals( Object obj) { //will need to check both iterators //may just scrap and compare hashcodes
+	/**Returns whether the tree is equivalent to another object**/
+	public boolean equals( Object obj) { 
 		if (obj instanceof BinaryTree) {
-
-			//return toString().equals(((BinaryTree) obj).toString());
 			
 			Iterator itr1 = iterator();
 			Iterator itr2 = ((BinaryTree) obj).iterator();
@@ -158,10 +161,12 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Returns true if the tree has no nodes**/
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
+	/**Returns an iterator that traverses the tree in preorder**/
 	public Iterator iterator() {
 		return new preOrderItr();
 	}
@@ -173,6 +178,7 @@ public class BinaryTree implements Iterable {
 
 		public preOrderItr() {
 			rightStack = new Stack<Node>();
+			BinaryTree.this.allowPrune = false;
 		}
 
 		public boolean hasNext() {
@@ -181,6 +187,7 @@ public class BinaryTree implements Iterable {
 				return (!rightStack.isEmpty() || BinaryTree.this.cursor.hasSon());
 			}
 			else {
+				BinaryTree.this.allowPrune = true;
 				return !BinaryTree.this.isEmpty();
 			}
 		}
@@ -208,6 +215,7 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Returns an iterator that traverses the tree in order**/
 	public Iterator inOrder() {
 		return new inOrderator();
 	}
@@ -269,7 +277,7 @@ public class BinaryTree implements Iterable {
 		}
 	}
 	
-
+	/**Places cursor at root of tree if root exists.**/
 	public boolean putCursorAtRoot() {
 		
 		if (isEmpty()) {
@@ -280,6 +288,7 @@ public class BinaryTree implements Iterable {
 		return true;
 	}
 
+	/**Places cursor at current cursor's left son**/
 	public boolean putCursorAtLeftSon() { //if cursor is null?
 
 		if (isEmpty()) {
@@ -296,6 +305,7 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Places cursor at current cursor's right son**/
 	public boolean putCursorAtRightSon() {
 
 		if (isEmpty()) {
@@ -312,6 +322,7 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Places cursor at current cursor's parent node**/
 	public boolean putCursorAtFather() {
 
 		if (isEmpty()) {
@@ -328,6 +339,8 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Attaches right son to current cursor if none already exists and returns
+	whether or not tree has changed.**/
 	public boolean attachLeftSonAtCursor(Object obj) { //what if obj is null?
 		if (cursor == null) {
 			return false;
@@ -345,6 +358,8 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Attaches right son to current cursor if none already exists and returns
+	whether or not tree has changed.**/
 	public boolean attachRightSonAtCursor(Object obj) { //what if obj is null?
 		if (cursor == null) {
 			return false;
@@ -362,6 +377,8 @@ public class BinaryTree implements Iterable {
 		}
 	}
 
+	/**Prunes subtree beginning at cursor, then places cursor at root of tree**/
+
 	public boolean pruneFromCursor() { 
 		if (cursor == null) {
 			return false;
@@ -369,13 +386,15 @@ public class BinaryTree implements Iterable {
 		else if (!allowPrune) {
 			throw new java.util.ConcurrentModificationException();
 		}
+		else if(cursor == root) {
+			cursor = null;
+			root = null;
+			size = 0;
+			return true;
+		}
 		else {
-			Node oldCursor = cursor; 
-			Node newCursor = oldCursor.getDad();
-
-			if (newCursor.getLeft() == oldCursor) {
-				newCursor.setLeft(null);
-			}
+			System.out.println(cursor.get());
+			cursor = null;
 
 			int newSize = 0;	//to ensure proper size change
 			Iterator sizeFinder = iterator();
@@ -386,16 +405,15 @@ public class BinaryTree implements Iterable {
 			}
 			
 			this.size = newSize;
-			
+			putCursorAtRoot();
+
 			return true;
 		}
 	}
 
+	/**Returns a string version of preorder and inorder traversals, each surrounded by brackets, 
+	then concatenates them with a '|' character.**/
 	public String toString() {
-		/*generates a string version
-		  of preorder and inorder traversals, each surrounded by brackets, 
-		  then concatenates them with a '|' character. 
-		*/
 
 		String result = "";
 		
@@ -422,10 +440,8 @@ public class BinaryTree implements Iterable {
 
 	}
 
-	public int hashCode() {
-		/*Returns hashcode of stringified tree
-		*/
-		//return toString().hashCode();
+	/**Returns unique hashcode of tree**/
+	public int hashCode() {	
 
 		Iterator preItr = iterator();
 		Iterator inItr = inOrder();
@@ -443,10 +459,10 @@ public class BinaryTree implements Iterable {
 		}
 		
 		result = result.replace("\\s$", "");
-
 		return result.hashCode();
 	}
 
+	/**Returns size of tree**/
 	public int size() {
 		return size;
 	}
