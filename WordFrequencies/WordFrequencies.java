@@ -11,8 +11,20 @@ public class WordFrequencies {
 		in = in.useDelimiter("[^a-zA-Z0-9-']"); 
 		String str = "";
 		Integer curCount = new Integer(0);
+		boolean sensitive = false;
+		boolean cleanOut = false;
 
-		if (args.length > 0 && args[0].equals("-s")) {
+		if (args.length > 0) {
+			for (String s : args) {
+				if (s.equals("-s")) {
+					sensitive = true;
+				}
+				if (s.equals("-c")) {
+					cleanOut = true;
+				}
+			}
+		}
+		if (sensitive) {
 			while (in.hasNext()) {
 				str = in.next().replaceAll("[-']", "");
 				if (str.equals("")) { //handles dashes separated by space
@@ -45,8 +57,15 @@ public class WordFrequencies {
 
 		ArrayList<String> keys = new ArrayList<>(map.keySet());
 		Collections.sort(keys);
-		for (String k : keys) {
-			System.out.println(k + " " + map.get(k));
+		if (cleanOut) {
+			for (String k : keys) {
+				System.out.println(k);
+			}
+		}
+		else {
+			for (String k : keys) {
+				System.out.println(k + " " + map.get(k));
+			}
 		}
 
 	}
